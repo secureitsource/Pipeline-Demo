@@ -91,7 +91,7 @@ $ mv summon /usr/local/bin
 ```
 $ curl -L -O https://github.com/cyberark/summon-conjur/releases/download/v0.5.0/summon-conjur-linux-amd64.tar.gz
 $ tar -xvzf summon-conjur-linux-amd64.tar.gz
-$ mkdir -p /use/local/lib/summon
+$ mkdir -p /usr/local/lib/summon
 $ mv summon-conjur /usr/local/lib/summon
 ```
 
