@@ -8,7 +8,7 @@ function main() {
 function fetch_machine_identity() {
 
   ########### CHANGE VARIABLES BELOW ############
-  local baseurl='https://conjur_master'
+  local baseurl='https://conjurucd.lab.secureitsource.com'
   local hostid='jenkins/masters/master01'
   local token=$(cat ~/src/hftoken.txt | tr -d "\n")
   local cert='/root/conjur-dev.pem'
