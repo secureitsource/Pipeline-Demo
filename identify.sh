@@ -11,7 +11,7 @@ function fetch_machine_identity() {
   local baseurl='https://conjurucd.lab.secureitsource.com'
   local hostid='jenkins/masters/master01'
   local token=$(cat ~/src/hftoken.txt | tr -d "\n")
-  local cert='/root/conjur-sis.pem'
+  local cert='~/conjur-sis.pem'
   ###############################################
 
   echo 'Fetching machine identity from Conjur'
