@@ -1,6 +1,5 @@
-# CyberArk Conjur - Jenkins World 2017 Demo
-This demonstration will be presented during Jenkins World 2017 in San Francisco, CA on August 29th-31st at CyberArk Booth # 504.
-
+# CyberArk Conjur - CI/CD Pipeline Demonstration
+This demonstration is based on infamousjoeg/JenkinsWorld2017Demo.
 ## What does this demonstrate for CyberArk Conjur?
 * __Machine Identity__
   * By granting a machine identity to the Jenkins Master, we can trust any communication authenticated with it's API Key going forward.  This allows [Summon](https://cyberark.github.io/summon) to use the Jenkins Master identity when reaching out to CyberArk Conjur for the secrets within [secrets.yml](secrets.yml).
@@ -10,11 +9,11 @@ This demonstration will be presented during Jenkins World 2017 in San Francisco,
   * By using [Summon](https://cyberark.github.io/summon) rather than hardcoding the credentials, this allows us to retrieve the secrets on-demand allowing CyberArk Conjur to manage and rotate the AWS access keys while still serving out the secrets programatically, as needed.
 
 ## How it works?
-Our `JenkinsWorld2017` job in [CloudBees Jenkins](https://www.cloudbees.com) is tied to this repository.  When the job's build is run, the [sqsPost.py](sqsPost.py) script will be run in a Shell Command build step within Jenkins.  Rather than just calling `python sqsPost.py` to test it in the workspace, we are executing `summon python sqsPost.py` instead.
+Our `Pipeline-Demo` job in [CloudBees Jenkins](https://www.cloudbees.com) is tied to this repository.  When the job's build is run, the [sqsPost.py](sqsPost.py) script will be run in a Shell Command build step within Jenkins.  Rather than just calling `python sqsPost.py` to test it in the workspace, we are executing `summon python sqsPost.py` instead.
 
 By having `summon` run the `python` provider, we can inject environment variables into `python` that the [sqsPost.py](sqsPost.py) script can reference when it runs.  `summon` will read [secrets.yml](secrets.yml) file and fetch the secret ID referenced within and place it in the given environment variable name in temporary memory.  For example: `ENV_VAR_NAME: !var /id/of/secret`
 
-Our [sqsPost.py](sqsPost.py) script is grabbing the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, logging into AWS API and sending a message to a Simple Queue Service (SQS) queue called JenkinsWorld2017 with a 2 minute TTL.  The contents of the message are the values of the AWS secrets fetched from within CyberArk Conjur.
+The [sqsPost.py](sqsPost.py) script is grabbing the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, logging into AWS API and sending a message to a Simple Queue Service (SQS) queue called Pipeline-Demo with a 2 minute TTL.  The contents of the message are the values of the AWS secrets fetched from within CyberArk Conjur.
 
 The secrets received in the message in AWS SQS can be checked against the Console Output of the Jenkins job build for confirmation of accuracy.
 
